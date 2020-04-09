@@ -1,0 +1,171 @@
+[
+  {
+    "objetivo": "a=b v a=c",
+    "premisas": [
+      "(Pb & Tb) → (a=b & a=c)",
+      "(Pb & Lb) & Pa",
+      "Tb"
+    ],
+    "pasos": [
+      [
+        "Pb & Lb",
+        "Simp. 2"
+      ],
+      [
+        "Pb",
+        "Simp. 4"
+      ],
+      [
+        "Pb & Tb",
+        "Conj. 3 5"
+      ],
+      [
+        "a=b & a=c",
+        "MP 1 6"
+      ],
+      [
+        "a=b",
+        "Simp. 7"
+      ],
+      [
+        "a=b v a=c",
+        "Add. 8"
+      ]
+    ],
+    "proposiciones": [
+      "Pb",
+      "Tb",
+      "a=b",
+      "a=c",
+      "Lb"
+    ]
+  },
+  {
+    "objetivo": "a=b v a=c",
+    "premisas": [
+      "(Pb & Tb) → (a=b & a=c)",
+      "(Pb & Lb) & Pa",
+      "Tb"
+    ],
+    "pasos": [
+      [
+        "Pb & Lb",
+        "Simp. 2"
+      ],
+      [
+        "Pb",
+        "Simp. 4"
+      ],
+      [
+        "Pb & Tb",
+        "Conj. 3 5"
+      ],
+      [
+        "a=b & a=c",
+        "MP 1 6"
+      ],
+      [
+        "a=c",
+        "Simp. 7"
+      ],
+      [
+        "a=b v a=c",
+        "Add. 8"
+      ]
+    ]
+  },
+  {
+    "objetivo": "(∃x)Px & (∀x)Dx",
+    "premisas": [
+      "~(∃x)Px → (∀x)Bx",
+      "~(∀x)Bx v ~(∀x)Cx",
+      "(∀x)Cx & (∀x)Dx"
+    ],
+    "pasos": [
+      [
+        "(∀x)Cx",
+        "Simp. 3"
+      ],
+      [
+        "~(∀x)Bx",
+        "SD 2 4"
+      ],
+      [
+        "(∃x)Px",
+        "MT 1 5"
+      ],
+      [
+        "*(∀x)Dx",
+        "Simp. 3"
+      ],
+      [
+        "(∃x)Px & (∀x)Dx",
+        "Conj. 6 7"
+      ]
+    ]
+  },
+  {
+    "objetivo": "Aa & (Bb & Cc)",
+    "premisas": [
+      "Aa & Da",
+      "(Bb & Db) & Ec",
+      "~Ec v Cc"
+    ],
+    "pasos": [
+      [
+        "Aa",
+        "Simp. 1"
+      ],
+      [
+        "Bb & Db",
+        "Simp. 2"
+      ],
+      [
+        "Bb",
+        "Simp. 5"
+      ],
+      [
+        "Ec",
+        "Simp. 2"
+      ],
+      [
+        "Cc",
+        "SD 3 7"
+      ],
+      [
+        "Bb & Cc",
+        "Conj. 6 8"
+      ],
+      [
+        "Aa & (Bb & Cc)",
+        "Conj. 4 9"
+      ]
+    ]
+  },
+  {
+    "objetivo": "Ta v (Qd → St)",
+    "premisas": [
+      "Ta ⟷ Qa",
+      "Qs & Ls",
+      "(Ls v Mr) → (Qd → St)"
+    ],
+    "pasos": [
+      [
+        "Ls",
+        "Simp. 2"
+      ],
+      [
+        "Ls v Mr",
+        "Add. 4"
+      ],
+      [
+        "Qd → St",
+        "MP 3 5"
+      ],
+      [
+        "Ta v (Qd → St)",
+        "Add. 6"
+      ]
+    ]
+  }
+]

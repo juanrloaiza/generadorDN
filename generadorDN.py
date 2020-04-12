@@ -15,7 +15,7 @@ categoria_html = """
         <text>$course$/top/Por defecto en 2020-1S_18610326_94563_63648/Deducción natural/Autogenerados/%s/%s</text>
 
     </category>
-  </question>""" % (categoria, nombre)
+</question>""" % (categoria, nombre)
 
 
 # Cargamos los ejercicios en formato JSON

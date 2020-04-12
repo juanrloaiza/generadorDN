@@ -1,21 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 import json
 import re
 
+# Asignamos un nombre y categoría para los ejercicios
 
-# In[2]:
-
-
-# Asignamos un nombre para los ejercicios
-
-categoria = "MP, MT, DB"
-nombre = "Autogenerados Fácil (Juliana)"
-
+categoria = "Sustitución, Instanciación, Generalización"
+nombre = "Dificil (JR)"
 
 categoria_html = """
 <question type="category">
@@ -26,15 +18,9 @@ categoria_html = """
   </question>""" % (categoria, nombre)
 
 
-# In[3]:
-
-
 # Cargamos los ejercicios en formato JSON
 with open('ejercicios.json') as f:
     ejercicios = json.loads(f.read())
-
-
-# In[4]:
 
 
 # Definimos unas constantes para los operadores lógicos...
@@ -48,10 +34,6 @@ lenguaje = [
     ")"
 ]
 
-
-# In[5]:
-
-
 # ...y una lista de reglas de inferencia.
 reglas = [
     "Simp.",
@@ -61,10 +43,10 @@ reglas = [
     "MP",
     "MT",
     "DB",
+    "Sust.",
+    "Inst.",
+    "Gen."
 ]
-
-
-# In[6]:
 
 
 ### FUNCIONES AUXILIARES
@@ -78,7 +60,7 @@ reglas = [
 
 def parse_atomicas(ejercicio):
     lenguaje_local = []
-    
+
     proposiciones = []
 
     for paso in ejercicio['pasos']:
@@ -87,18 +69,15 @@ def parse_atomicas(ejercicio):
         for prop in props:
             if prop not in proposiciones:
                 proposiciones.append(prop)
-                
+
         cuantificadores = re.findall('\(∀[a-z]\)', paso[0])
         cuantificadores += re.findall('\(∃[a-z]\)', paso[0])
-        
+
         for cuantificador in cuantificadores:
             if cuantificador not in lenguaje_local:
                 lenguaje_local.append(cuantificador)
-                
+
     return proposiciones, lenguaje_local
-
-
-# In[7]:
 
 
 # Definimos una función de reemplazo que va por cada string de cada paso
@@ -107,7 +86,7 @@ def parse_atomicas(ejercicio):
 
 def reemplazo(paso):
     string = paso
-    
+
     for item in completo:
         if "*" not in string:
             #print("Buscando: %s" % item)
@@ -116,13 +95,9 @@ def reemplazo(paso):
             string = re.sub(rem, '[[' + str(completo.index(item) + 1) + ']]', string)
 
     string = string.replace("*", "")
-    
+
     #print("%s → %s" % (paso, string))
     return string
-
-
-# In[8]:
-
 
 ## Esta función genera la tabla del ejercicio en HTML.
 # Esta es la que nos premite presentar el ejercicio en moodle.
@@ -157,12 +132,8 @@ def generar_tabla(ejercicio):
         tabla += '\t<tr>' + columna_pasos + paso_html + regla + '</tr>\n'
 
     tabla += '</table>\n'
-    
+
     return tabla
-
-
-# In[9]:
-
 
 ## Esto genera el XML correspondiente al ejercicio.
 # Juntamos la tabla generada en HTML con código XML de Moodle para su importación.
@@ -176,7 +147,7 @@ def generar_ejercicio(tabla, contador_ejercicios):
         </name>
         <questiontext format="html">
             <text><![CDATA[\n""" % (nombre, contador_ejercicios)
-    
+
     contador_ejercicios += 1
 
     ejercicio_html += tabla
@@ -201,12 +172,8 @@ def generar_ejercicio(tabla, contador_ejercicios):
           <text><![CDATA[<p>Respuesta incorrecta.</p>]]></text>
         </incorrectfeedback>
         <shownumcorrect/>\n"""
-    
+
     return ejercicio_html
-
-
-# In[10]:
-
 
 # Generamos las casillas (dragboxes) para cada proposición atómica, operador y regla de inferencia.
 
@@ -233,16 +200,8 @@ def generar_dragboxes(proposiciones, lenguaje_local):
 
     return dragboxes
 
-
-# In[11]:
-
-
 # Constante de comienzo del código html
 headers = '<?xml version="1.0" encoding="UTF-8"?>\n<quiz>\n'
-
-
-# In[12]:
-
 
 # Loop principal
 
@@ -250,37 +209,32 @@ html = headers + categoria_html
 
 contador_ejercicios = 1
 
-for ejercicio in ejercicios:  
+for ejercicio in ejercicios:
     proposiciones, lenguaje_local = parse_atomicas(ejercicio)
-    
+
     lenguaje_local += lenguaje
-    
+
     total_pasos = len(ejercicio['premisas']) + len(ejercicio['pasos'])
-    
+
     lista_pasos = [str(x) for x in range(total_pasos + 1, 0, -1)]
-    
+
     completo = lista_pasos  + lenguaje_local + reglas + proposiciones
-    
+
     tabla = generar_tabla(ejercicio)
-    
+
     ejercicio_html = generar_ejercicio(tabla, contador_ejercicios)
     contador_ejercicios += 1
-    
+
     ejercicio_html += generar_dragboxes(proposiciones, lenguaje_local)
-    
+
     ejercicio_html += '</question>\n'
-    
+
     html += ejercicio_html
-    
+
 html += '</quiz>'
 
 print("¡Listos!")
 print("Ejercicios procesados: %s" % (contador_ejercicios - 1))
 
-
-# In[13]:
-
-
 with open('ejercicios.xml', 'w') as f:
     f.write(html)
-

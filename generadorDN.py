@@ -4,25 +4,7 @@
 import json
 import re
 
-# Asignamos un nombre y categoría para los ejercicios
-
-categoria = "Sustitución, Instanciación, Generalización"
-nombre = "Dificil (JR)"
-
-categoria_html = """
-<question type="category">
-    <category>
-        <text>$course$/top/Por defecto en 2020-1S_18610326_94563_63648/Deducción natural/Autogenerados/%s/%s</text>
-
-    </category>
-</question>""" % (categoria, nombre)
-
-
-# Cargamos los ejercicios en formato JSON
-with open('ejercicios.json') as f:
-    ejercicios = json.loads(f.read())
-
-
+## CONSTANTES
 # Definimos unas constantes para los operadores lógicos...
 lenguaje = [
     "&",
@@ -47,7 +29,6 @@ reglas = [
     "Inst.",
     "Gen."
 ]
-
 
 ### FUNCIONES AUXILIARES
 
@@ -143,10 +124,10 @@ def generar_ejercicio(tabla, contador_ejercicios):
     ejercicio_html = """
     <question type="ddwtos">
         <name>
-           <text>%s %s</text>
+           <text>%s (%s) %s</text>
         </name>
         <questiontext format="html">
-            <text><![CDATA[\n""" % (nombre, contador_ejercicios)
+            <text><![CDATA[\n""" % (abreviatura, dificultad,  contador_ejercicios)
 
     contador_ejercicios += 1
 
@@ -201,35 +182,56 @@ def generar_dragboxes(proposiciones, lenguaje_local):
     return dragboxes
 
 # Constante de comienzo del código html
-headers = '<?xml version="1.0" encoding="UTF-8"?>\n<quiz>\n'
+html = '<?xml version="1.0" encoding="UTF-8"?>\n<quiz>\n'
 
 # Loop principal
-
-html = headers + categoria_html
-
 contador_ejercicios = 1
 
-for ejercicio in ejercicios:
-    proposiciones, lenguaje_local = parse_atomicas(ejercicio)
+# Cargamos los ejercicios en formato JSON
+with open('ejercicios.json') as f:
+    ejercicios = json.loads(f.read())
 
-    lenguaje_local += lenguaje
+# Asignamos un nombre y categoría para los ejercicios
+categoria = input("Escriba un tema: ")
+abreviatura = input("Escriba una abreviatura para el tema: ")
+autor = input("Autor/a: ")
 
-    total_pasos = len(ejercicio['premisas']) + len(ejercicio['pasos'])
+for conjunto_por_dificultad in ejercicios:
+    dificultad = conjunto_por_dificultad["dificultad"]
 
-    lista_pasos = [str(x) for x in range(total_pasos + 1, 0, -1)]
+    # Comenzamos el html del ejercicio declarando la categoría
+    html += """
+    <question type="category">
+    <category>
+    <text>$course$/top/Deducción natural/Autogenerados/%s/%s (%s)</text>
 
-    completo = lista_pasos  + lenguaje_local + reglas + proposiciones
+    </category>
+    </question>""" % (categoria, dificultad, autor)
 
-    tabla = generar_tabla(ejercicio)
+    for ejercicio in conjunto_por_dificultad["ejercicios"]:
 
-    ejercicio_html = generar_ejercicio(tabla, contador_ejercicios)
-    contador_ejercicios += 1
+        # Procesamos el ejercicio
 
-    ejercicio_html += generar_dragboxes(proposiciones, lenguaje_local)
+        proposiciones, lenguaje_local = parse_atomicas(ejercicio)
 
-    ejercicio_html += '</question>\n'
+        lenguaje_local += lenguaje
 
-    html += ejercicio_html
+        total_pasos = len(ejercicio['premisas']) + len(ejercicio['pasos'])
+
+        lista_pasos = [str(x) for x in range(total_pasos + 1, 0, -1)]
+
+        completo = lista_pasos  + lenguaje_local + reglas + proposiciones
+
+        tabla = generar_tabla(ejercicio)
+
+        ejercicio_html = generar_ejercicio(tabla, contador_ejercicios)
+        contador_ejercicios += 1
+
+        ejercicio_html += generar_dragboxes(proposiciones, lenguaje_local)
+
+        ejercicio_html += '</question>\n'
+
+        html += ejercicio_html
 
 html += '</quiz>'
 

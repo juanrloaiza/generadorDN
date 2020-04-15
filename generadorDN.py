@@ -113,6 +113,16 @@ def contar_profundidad(prueba):
             niveles += contar_profundidad(subprueba)
         return niveles
 
+# Función para contar los pasos incluyendo los pasos en subpruebas
+def contarPasos(prueba, contador = 0):
+    pasos = prueba['pasos'] + prueba['premisas']
+    for paso in pasos:
+        if type(paso) is str or type(paso) is list:
+            contador += 1
+        elif type(paso) is dict:
+            contador += contarPasos(paso['prueba'], contador)
+    return contador
+
 # Produce la columna con los pasos
 def columnaPasos(contador):
     columna = '\n\t\t<td style="width: 1%%; padding: 5px; border-right: 1px solid black;"> %s </td>\n' % contador
@@ -277,26 +287,40 @@ for conjunto_por_dificultad in ejercicios:
     for ejercicio in conjunto_por_dificultad["ejercicios"]:
 
         # Procesamos el ejercicio
-        proposiciones, lenguaje_local = parseAtomicas(ejercicio)
-        print(proposiciones)
 
+        # Extraemos las proposiciones atómicas y los cuantificadores si los hay.
+        proposiciones, lenguaje_local = parseAtomicas(ejercicio)
+
+        # Agregamos los cuantificadores al lenguaje general
         lenguaje_local += lenguaje
 
-        total_pasos = len(ejercicio['premisas']) + len(ejercicio['pasos'])
+        # Contamos el total de pasos para armar una lista con los pasos
+        # y agregarlos al lenguaje completo.
+        total_pasos = contarPasos(ejercicio)
+
+
+
+
 
         lista_pasos = [str(x) for x in range(total_pasos, 0, -1)] + ['-']
 
+        # Armamos una lista del lenguaje completo, incluyendo los números
+        # de los pasos, cuantificadores, las reglas de inferencia y las
+        # proposiciones atómicas.
         completo = lista_pasos  + lenguaje_local + reglas + proposiciones
 
+        # Generamos una tabla en html para el ejercicio
         tabla = generarTabla(ejercicio)
 
+        # Generamos el xml del ejercicio y subimos el contador de ejercicios.
         ejercicio_html = generar_ejercicio(tabla, contador_ejercicios)
         contador_ejercicios += 1
 
+        # Generamos las casillas de arrastre para el ejercicio.
         ejercicio_html += generar_dragboxes(proposiciones, lenguaje_local)
 
+        # Cerramos el xml del ejercicio y lo agregamos al html general.
         ejercicio_html += '</question>\n'
-
         html += ejercicio_html
 
 html += '</quiz>'

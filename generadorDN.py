@@ -283,7 +283,7 @@ for conjunto_por_dificultad in ejercicios:
 
         total_pasos = len(ejercicio['premisas']) + len(ejercicio['pasos'])
 
-        lista_pasos = [str(x) for x in range(total_pasos, 0, -1)]
+        lista_pasos = [str(x) for x in range(total_pasos, 0, -1)] + ['-']
 
         completo = lista_pasos  + lenguaje_local + reglas + proposiciones
 

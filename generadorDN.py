@@ -125,7 +125,7 @@ def contarPasos(prueba, contador = 0):
 
 # Produce la columna con los pasos
 def columnaPasos(contador):
-    columna = '\n\t\t<td style="width: 1%%; padding: 5px; border-right: 1px solid black;"> %s </td>\n' % contador
+    columna = '\n\t\t<td style="padding: 5px; border-right: 1px solid black;"> %s </td>\n' % contador
     return columna
 
 # Rellena según el nivel de profundidad del ejercicio
@@ -133,12 +133,12 @@ def relleno(nivel):
     ## Agregar celdas para profundidad
     relleno = ""
     for x in range(nivel):
-        relleno += '<td style="width: 20px; border-right: 1px solid black;"></td>'
+        relleno += '<td style="padding: 5px; border-right: 1px solid black;"></td>'
     return relleno
 
 # Arma las celdas de proposiciones y reglas
 def armarContenido(texto, regla, profundidad, isLastPremisa = False):
-    estilo = "padding: 5px; min-width: 4em;"
+    estilo = "padding: 5px; "
 
     # Si estamos en la última premisa,
     # agregue un borde abajo.
@@ -185,7 +185,7 @@ def generarFilas(ejercicio, nivel = 0, contador = 1):
 # Genera la tabla en HTML
 def generarTabla(ejercicio):
     tabla = "<strong>Objetivo: </strong>%s<br>" % ejercicio['objetivo']
-    tabla += "<table style='table-layout: fixed; max-width: 300px'>"
+    tabla += "<table>"
     filas = generarFilas(ejercicio)[0]
     tabla += filas
     tabla += '</table>'
@@ -297,11 +297,6 @@ for conjunto_por_dificultad in ejercicios:
         # Contamos el total de pasos para armar una lista con los pasos
         # y agregarlos al lenguaje completo.
         total_pasos = contarPasos(ejercicio)
-
-
-
-
-
         lista_pasos = [str(x) for x in range(total_pasos, 0, -1)] + ['-']
 
         # Armamos una lista del lenguaje completo, incluyendo los números

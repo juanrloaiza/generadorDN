@@ -3,17 +3,17 @@
 
     <question type="category">
     <category>
-    <text>$course$/top/Deducción natural/Autogenerados/P/Fácil (a)</text>
+    <text>$course$/top/Deducción natural/Autogenerados/p/Fácil (p)</text>
 
     </category>
     </question>
     <question type="ddwtos">
         <name>
-           <text>a (Fácil) 1</text>
+           <text>p (Fácil) 1</text>
         </name>
         <questiontext format="html">
             <text><![CDATA[
-<table style='table-layout: fixed; max-width: 300px'>	<tr>
+<strong>Objetivo: </strong>Blah<br><table style='table-layout: fixed; max-width: 300px'>	<tr>
 		<td style="width: 1%; padding: 5px; border-right: 1px solid black;"> 1 </td>
 		<td style="padding: 5px; min-width: 4em;" colspan="3"> [[26]] </td>		<td>S</td>
 </tr>

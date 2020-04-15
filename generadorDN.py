@@ -174,7 +174,8 @@ def generarFilas(ejercicio, nivel = 0, contador = 1):
 
 # Genera la tabla en HTML
 def generarTabla(ejercicio):
-    tabla = "<table style='table-layout: fixed; max-width: 300px'>"
+    tabla = "<strong>Objetivo: </strong>%s<br>" % ejercicio['objetivo']
+    tabla += "<table style='table-layout: fixed; max-width: 300px'>"
     filas = generarFilas(ejercicio)[0]
     tabla += filas
     tabla += '</table>'

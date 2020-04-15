@@ -1,119 +1,50 @@
 [{
-    "dificultad": "Fácil",
-    "ejercicios": [{
-        "objetivo": "(∃x)(Px → Qx)",
-        "premisas": [
-          "(Pa → Qa) & Sa"
-        ],
-        "pasos": [
-          [
-            "Pa → Qa", "Simp. 1"
-          ],
-          [
-            "(∃x)(Px → Qx)", "Gen. 2"
-          ]
-        ]
-      },
-      {
-        "objetivo": "Sa",
-        "premisas": [
-          "(∀x)(Px & Qx)",
-          "(∀x)(Px → Sx)"
-        ],
-        "pasos": [
-          [
-            "Pa & Sa",
-            "Inst. 1"
-          ],
-          [
-            "Pa*",
-            "Simp. 3"
-          ],
-          [
-            "Pa → Sa",
-            "Inst. 2"
-          ],
-          [
-            "Sa",
-            "MP 4 5"
-          ]
-        ]
-      },
-      {
-        "objetivo": "Pb",
-        "premisas": [
-          "a=b",
-          "~(Qa & Qb) v Pa",
-          "Pc & (Qa & Qb)"
-        ],
-        "pasos": [
-          [
-            "Qa & Qb",
-            "Simp. 3"
-          ],
-          [
-            "Pa",
-            "SD 2 4"
-          ],
-          [
-            "Pb",
-            "Sust. 1 5"
-          ]
-        ]
-      }
-    ]
-  },
-  {
-    "dificultad": "Difícil",
-    "ejercicios": [{
-      "objetivo": "(∃x)(Px → Qx)",
-      "premisas": [
-        "Pa → (∀x)(Px ↔ Qx)",
-        "Pb v ~(∃x)(Txa)",
-        "a=b & Tab"
+  "dificultad": "Fácil",
+  "ejercicios": [{
+    "objetivo": "Blah",
+    "premisas": [
+      "Pa",
+      "Qa"
+    ],
+    "pasos": [
+      [
+        "Pb",
+        "Simp 1"
       ],
-      "pasos": [
-        [
-          "*Tab",
-          "Simp. 2"
-        ],
-        [
-          "a=b",
-          "Simp. 2"
-        ],
-        [
-          "Taa",
-          "Sust. 5"
-        ],
-        [
-          "(∃x)(Txa)",
-          "Gen. 6"
-        ],
-        [
-          "Pb",
-          "SD 2 7"
-        ],
-        [
-          "Pa",
-          "Sust. 5 8"
-        ],
-        [
-          "(∀x)(Px ↔ Qx)",
-          "MP 1 9"
-        ],
-        [
-          "Pa ↔ Qa ",
-          "Inst. 10"
-        ],
-        [
-          "Pa → Qa",
-          "DB 11"
-        ],
-        [
-          "*(∃x)(Px → Qx)",
-          "Gen. 12"
-        ]
+      {
+        "prueba": {
+          "premisas": [
+            "Pc"
+          ],
+          "pasos": [
+            [
+              "Qc",
+              "Simp 2"
+            ],
+            {
+              "prueba": {
+                "premisas": [
+                  "Pd"
+                ],
+                "pasos": [
+                  [
+                    "Qd",
+                    "Simp 3"
+                  ]
+                ]
+              }
+            },
+            [
+              "Pa → Qa",
+              "Simp 4"
+            ]
+          ]
+        }
+      },
+      [
+        "Pa → Qa",
+        "Simp 4"
       ]
-    }]
-  }
-]
+    ]
+  }]
+}]

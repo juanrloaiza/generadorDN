@@ -3,6 +3,7 @@
 
 import json
 import re
+import random
 
 ## CONSTANTES
 # Definimos unas constantes para los operadores lógicos...
@@ -29,7 +30,9 @@ reglas = [
     "Inst.",
     "Gen.",
     "CB",
-    "PC"
+    "PC",
+    "Dil.",
+    "RA"
 ]
 
 ### FUNCIONES AUXILIARES
@@ -77,8 +80,21 @@ def parseAtomicas(ejercicio):
             if cuantificador not in lenguaje_local:
                 lenguaje_local.append(cuantificador)
 
+        lenguaje_local = list(set(lenguaje_local))
     return proposiciones, lenguaje_local
 
+# Función para extraer reglas del ejercicio. Mejor que sea otra función.
+def extraerReglas(prueba):
+    reglasLocales = []
+
+    for paso in prueba['pasos']:
+        if type(paso) == list:
+            reglasLocales += [regla for regla in re.findall('[A-Za-z]+\.?', paso[1]) if regla not in reglasLocales]
+
+        elif type(paso) == dict:
+            reglasLocales += extraerReglas(paso['prueba'])
+
+    return reglasLocales
 
 # Definimos una función de reemplazo que va por cada string de cada paso
 # y reemplaza cada proposición atómica, cada operador y cada regla de inferencia y número
@@ -119,8 +135,9 @@ def contarPasos(prueba, contador = 0):
     for paso in pasos:
         if type(paso) is str or type(paso) is list:
             contador += 1
+
         elif type(paso) is dict:
-            contador += contarPasos(paso['prueba'], contador)
+            contador = contarPasos(paso['prueba'], contador)
     return contador
 
 # Produce la columna con los pasos
@@ -290,6 +307,7 @@ for conjunto_por_dificultad in ejercicios:
 
         # Extraemos las proposiciones atómicas y los cuantificadores si los hay.
         proposiciones, lenguaje_local = parseAtomicas(ejercicio)
+        reglasLocales = extraerReglas(ejercicio)
 
         # Agregamos los cuantificadores al lenguaje general
         lenguaje_local += lenguaje
@@ -302,7 +320,13 @@ for conjunto_por_dificultad in ejercicios:
         # Armamos una lista del lenguaje completo, incluyendo los números
         # de los pasos, cuantificadores, las reglas de inferencia y las
         # proposiciones atómicas.
-        completo = lista_pasos  + lenguaje_local + reglas + proposiciones
+        reglasEjercicio = random.sample([regla for regla in reglas if regla not in reglasLocales], k = 3) + reglasLocales
+        random.shuffle(reglasEjercicio)
+
+        # Tenemos que depurar la lista de reglas. Hay que poner las reglas que
+        # están en el ejercicio y un par más, pero no todas. De lo contrario,
+        #sobrecargamos algunos exploradores.
+        completo = lista_pasos  + lenguaje_local + reglasEjercicio + proposiciones
 
         # Generamos una tabla en html para el ejercicio
         tabla = generarTabla(ejercicio)

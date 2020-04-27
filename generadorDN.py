@@ -32,7 +32,11 @@ reglas = [
     "CB",
     "PC",
     "Dil.",
-    "RA"
+    "RA",
+    "Dist.",
+    "Asoc.",
+    "DM",
+    "Conm."
 ]
 
 ### FUNCIONES AUXILIARES
@@ -304,6 +308,7 @@ for conjunto_por_dificultad in ejercicios:
     for ejercicio in conjunto_por_dificultad["ejercicios"]:
 
         # Procesamos el ejercicio
+        print(ejercicio["objetivo"])
 
         # Extraemos las proposiciones atómicas y los cuantificadores si los hay.
         proposiciones, lenguaje_local = parseAtomicas(ejercicio)

@@ -36,7 +36,10 @@ reglas = [
     "Dist.",
     "Asoc.",
     "DM",
-    "Conm."
+    "Conm.",
+    "Impl.",
+    "PE",
+    "Univ."
 ]
 
 ### FUNCIONES AUXILIARES

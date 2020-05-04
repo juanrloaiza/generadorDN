@@ -42,7 +42,10 @@ reglas = [
     "Univ.",
     "IC",
     "Export.",
-    "Trans."
+    "Trans.",
+    "DN",
+    "PI",
+    "DeM"
 ]
 
 ### FUNCIONES AUXILIARES

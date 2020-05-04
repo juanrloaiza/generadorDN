@@ -39,7 +39,10 @@ reglas = [
     "Conm.",
     "Impl.",
     "PE",
-    "Univ."
+    "Univ.",
+    "IC",
+    "Export.",
+    "Trans."
 ]
 
 ### FUNCIONES AUXILIARES
@@ -182,15 +185,16 @@ def generarFilas(ejercicio, nivel = 0, contador = 1):
     # contar profundidad
     profundidad = contar_profundidad(ejercicio) + 1
 
-    for premisa in ejercicio['premisas']:
-        if premisa == ejercicio['premisas'][-1]:
-            isLastPremisa = True
-        else:
-            isLastPremisa = False
+    if ejercicio['premisas']:
+        for premisa in ejercicio['premisas']:
+            if premisa == ejercicio['premisas'][-1]:
+                isLastPremisa = True
+            else:
+                isLastPremisa = False
 
-        filas += '\t<tr>' + columnaPasos(contador) + relleno(nivel) + armarContenido(reemplazo(premisa), reemplazo('S'), profundidad, isLastPremisa) + '</tr>\n'
+            filas += '\t<tr>' + columnaPasos(contador) + relleno(nivel) + armarContenido(reemplazo(premisa), reemplazo('S'), profundidad, isLastPremisa) + '</tr>\n'
 
-        contador += 1
+            contador += 1
 
 
     for paso in ejercicio['pasos']:
@@ -311,7 +315,7 @@ for conjunto_por_dificultad in ejercicios:
     for ejercicio in conjunto_por_dificultad["ejercicios"]:
 
         # Procesamos el ejercicio
-        print(ejercicio["objetivo"])
+        print("%s: %s" % (contador_ejercicios, ejercicio["objetivo"]))
 
         # Extraemos las proposiciones atómicas y los cuantificadores si los hay.
         proposiciones, lenguaje_local = parseAtomicas(ejercicio)
@@ -334,7 +338,7 @@ for conjunto_por_dificultad in ejercicios:
         # Tenemos que depurar la lista de reglas. Hay que poner las reglas que
         # están en el ejercicio y un par más, pero no todas. De lo contrario,
         #sobrecargamos algunos exploradores.
-        completo = lista_pasos  + lenguaje_local + reglasEjercicio + proposiciones
+        completo = lista_pasos + reglasEjercicio + lenguaje_local + proposiciones
 
         # Generamos una tabla en html para el ejercicio
         tabla = generarTabla(ejercicio)

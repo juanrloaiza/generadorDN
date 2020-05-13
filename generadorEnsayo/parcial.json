@@ -1,0 +1,32 @@
+[
+  {
+    "tipo": "validez",
+    "premisas": [
+      "Premisa1",
+      "Premisa2"
+    ],
+    "conclusion": [
+      "Conclusión"
+    ]
+  },
+  {
+    "tipo": "consistencia",
+    "premisas": [
+      "Premisa1",
+      "Premisa2"
+    ]
+  },
+  {
+    "tipo": "equivalencia",
+    "premisas": [
+      "Premisa1",
+      "Premisa2"
+    ]
+  },
+  {
+    "tipo": "tautologia-contradiccion",
+    "premisas": [
+      "Premisa1"
+    ]
+  }
+]

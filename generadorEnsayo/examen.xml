@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz><question type="category">
+    <category>
+        <text>$course$/top/Examen final/Validez</text>
+
+    </category>
+  </question>
+  <question type="essay">
+    <name>
+      <text>validez1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Demuestre que el siguiente argumento es válido o inválido. </p><p>Traduzca los enunciados y demuestre validez o invalidez usando tablas de verdad o deducción natural.</p><p><small>Nota: Si los enunciados contienen cuantificadores, no use tablas de verdad.</small></p><table style="margin: 1em"><tbody><tr><td>Premisa1</td></tr><tr><td>Premisa2</td></tr><tr><td style="border-top: 1px solid black">Conclusión</td></tr></tbody></table><p>Escriba su respuesta en el campo de texto proporcionado y adjunte el archivo con la tabla de verdad o la deducción correspondiente.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <responseformat>plain</responseformat>
+    <responserequired>1</responserequired>
+    <responsefieldlines>1</responsefieldlines>
+    <attachments>1</attachments>
+    <attachmentsrequired>1</attachmentsrequired>
+    <graderinfo format="html">
+      <text></text>
+    </graderinfo>
+    <responsetemplate format="html">
+      <text></text>
+    </responsetemplate>
+  </question><question type="category">
+    <category>
+        <text>$course$/top/Examen final/Consistencia</text>
+
+    </category>
+  </question>
+  <question type="essay">
+    <name>
+      <text>consistencia2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Demuestre que el siguiente conjunto es consistente o inconsistente. </p><p>Traduzca los enunciados y demuestre consistencia o inconsistencia usando tablas de verdad o deducción natural.</p><p><small>Nota: Si los enunciados contienen cuantificadores, no use tablas de verdad.</small></p><p style="margin: 1em">{Premisa1; Premisa2}</p><p>Escriba su respuesta en el campo de texto proporcionado y adjunte el archivo con la tabla de verdad o la deducción correspondiente.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <responseformat>plain</responseformat>
+    <responserequired>1</responserequired>
+    <responsefieldlines>1</responsefieldlines>
+    <attachments>1</attachments>
+    <attachmentsrequired>1</attachmentsrequired>
+    <graderinfo format="html">
+      <text></text>
+    </graderinfo>
+    <responsetemplate format="html">
+      <text></text>
+    </responsetemplate>
+  </question><question type="category">
+    <category>
+        <text>$course$/top/Examen final/Equivalencia</text>
+
+    </category>
+  </question>
+  <question type="essay">
+    <name>
+      <text>equivalencia3</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Demuestre si los siguientes enunciados son equivalentes. </p><p>Traduzca los enunciados y demuestre su equivalencia (o falta de equivalencia) usando tablas de verdad o deducción natural.</p><p><small>Nota: Si los enunciados contienen cuantificadores, no use tablas de verdad.</small></p><p style="margin: 1em">Premisa1 :: Premisa2</p><p>Escriba su respuesta en el campo de texto proporcionado y adjunte el archivo con la tabla de verdad o la deducción correspondiente.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <responseformat>plain</responseformat>
+    <responserequired>1</responserequired>
+    <responsefieldlines>1</responsefieldlines>
+    <attachments>1</attachments>
+    <attachmentsrequired>1</attachmentsrequired>
+    <graderinfo format="html">
+      <text></text>
+    </graderinfo>
+    <responsetemplate format="html">
+      <text></text>
+    </responsetemplate>
+  </question><question type="category">
+    <category>
+        <text>$course$/top/Examen final/Tautologia-Contradiccion</text>
+
+    </category>
+  </question>
+  <question type="essay">
+    <name>
+      <text>tautologia-contradiccion4</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Demuestre si el siguiente enunciado es una tautología, una contradicción o una contingencia. </p><p>Traduzca los enunciados y demuestre usando tablas de verdad o deducción natural.</p><p><small>Nota: Si los enunciados contienen cuantificadores, no use tablas de verdad.</small></p><p style="margin: 1em">Premisa1</p><p>Escriba su respuesta en el campo de texto proporcionado y adjunte el archivo con la tabla de verdad o la deducción correspondiente.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <responseformat>plain</responseformat>
+    <responserequired>1</responserequired>
+    <responsefieldlines>1</responsefieldlines>
+    <attachments>1</attachments>
+    <attachmentsrequired>1</attachmentsrequired>
+    <graderinfo format="html">
+      <text></text>
+    </graderinfo>
+    <responsetemplate format="html">
+      <text></text>
+    </responsetemplate>
+  </question></quiz>

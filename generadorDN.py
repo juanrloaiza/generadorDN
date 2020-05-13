@@ -5,14 +5,14 @@ import json
 import re
 import random
 
-## CONSTANTES
+# CONSTANTES
 # Definimos unas constantes para los operadores lógicos...
 lenguaje = [
+    "~",
     "&",
     "v",
     "→",
     "↔",
-    "~",
     "(",
     ")"
 ]
@@ -35,7 +35,6 @@ reglas = [
     "RA",
     "Dist.",
     "Asoc.",
-    "DM",
     "Conm.",
     "Impl.",
     "PE",
@@ -45,10 +44,11 @@ reglas = [
     "Trans.",
     "DN",
     "PI",
-    "DeM"
+    "DeM",
+    "R"
 ]
 
-### FUNCIONES AUXILIARES
+# FUNCIONES AUXILIARES
 
 # Esta función recibe un ejercicio que contiene premisas y pasos.
 # Pasamos por cada uno de los pasos para extraer las proposiciones atómicas.
@@ -56,6 +56,7 @@ reglas = [
 # de cuantificadores para agregarlos al lenguaje en caso de que sea necesario.
 # Hacemos esto por cada ejercicio en caso de que tengamos cuantificadores
 # con variables diferentes.
+
 
 def parseAtomicas(ejercicio):
     lenguaje_local = []
@@ -94,15 +95,20 @@ def parseAtomicas(ejercicio):
                 lenguaje_local.append(cuantificador)
 
         lenguaje_local = list(set(lenguaje_local))
+
     return proposiciones, lenguaje_local
 
 # Función para extraer reglas del ejercicio. Mejor que sea otra función.
+
+
 def extraerReglas(prueba):
     reglasLocales = []
 
     for paso in prueba['pasos']:
+        print('\t\t' + str(paso))
         if type(paso) == list:
-            reglasLocales += [regla for regla in re.findall('[A-Za-z]+\.?', paso[1]) if regla not in reglasLocales]
+            reglasLocales += [regla for regla in re.findall(
+                '[A-Za-z]+\.?', paso[1]) if regla not in reglasLocales]
 
         elif type(paso) == dict:
             reglasLocales += extraerReglas(paso['prueba'])
@@ -113,6 +119,7 @@ def extraerReglas(prueba):
 # y reemplaza cada proposición atómica, cada operador y cada regla de inferencia y número
 # por un código [[X]] para moodle. Esto es lo que nos ayuda a formar las casillas.
 
+
 def reemplazo(paso):
     string = paso
 
@@ -120,30 +127,36 @@ def reemplazo(paso):
         if "*" not in string:
             rem = '(?<!\[\[)' + item.replace('(', '\(').replace(')', '\)') + '(?!\]\])'
 
-            string = re.sub(rem, '[[' + str(completo.index(item) + 1) + ']]', string)
+            string = re.sub(
+                rem, '[[' + str(completo.index(item) + 1) + ']]', string)
 
     string = string.replace("*", "")
 
     return string
 
-## Esta función genera la tabla del ejercicio en HTML.
+# Esta función genera la tabla del ejercicio en HTML.
 # Esta es la que nos premite presentar el ejercicio en moodle.
 
 # Contamos los niveles de profundidad de las pruebas auxiliares.
+
+
 def contar_profundidad(prueba):
     niveles = 0
     # si la prueba no contiene diccionarios
     if not any(type(paso) is dict for paso in prueba['pasos']):
         return 0
     else:
-        subpruebas = [paso['prueba'] for paso in prueba['pasos'] if type(paso) is dict]
+        subpruebas = [paso['prueba']
+                      for paso in prueba['pasos'] if type(paso) is dict]
         niveles += 1
         for subprueba in subpruebas:
             niveles += contar_profundidad(subprueba)
         return niveles
 
 # Función para contar los pasos incluyendo los pasos en subpruebas
-def contarPasos(prueba, contador = 0):
+
+
+def contarPasos(prueba, contador=0):
     pasos = prueba['pasos'] + prueba['premisas']
     for paso in pasos:
         if type(paso) is str or type(paso) is list:
@@ -154,20 +167,26 @@ def contarPasos(prueba, contador = 0):
     return contador
 
 # Produce la columna con los pasos
+
+
 def columnaPasos(contador):
     columna = '\n\t\t<td style="padding: 5px; border-right: 1px solid black;"> %s </td>\n' % contador
     return columna
 
 # Rellena según el nivel de profundidad del ejercicio
+
+
 def relleno(nivel):
-    ## Agregar celdas para profundidad
+    # Agregar celdas para profundidad
     relleno = ""
     for x in range(nivel):
         relleno += '<td style="padding: 5px; border-right: 1px solid black;"></td>'
     return relleno
 
 # Arma las celdas de proposiciones y reglas
-def armarContenido(texto, regla, profundidad, isLastPremisa = False):
+
+
+def armarContenido(texto, regla, profundidad, isLastPremisa=False):
     estilo = "padding: 5px; "
 
     # Si estamos en la última premisa,
@@ -175,55 +194,63 @@ def armarContenido(texto, regla, profundidad, isLastPremisa = False):
     if isLastPremisa:
         estilo += "border-bottom: 1px solid black;"
 
-    colTexto = '\t\t<td style="%s" colspan="%s"> %s </td>' % (estilo, profundidad, texto)
+    colTexto = '\t\t<td style="%s" colspan="%s"> %s </td>' % (
+        estilo, profundidad, texto)
 
     colRegla = '\t\t<td>%s</td>\n' % regla
 
     return colTexto + colRegla
 
 # Genera las filas de la tabla en HTML
-def generarFilas(ejercicio, nivel = 0, contador = 1):
+
+
+def generarFilas(ejercicio, profundidad, nivel=0, contador=1):
     filas = ""
 
-    # contar profundidad
-    profundidad = contar_profundidad(ejercicio) + 1
+    for premisa in ejercicio['premisas']:
+        if premisa == ejercicio['premisas'][-1]:
+            isLastPremisa = True
+        else:
+            isLastPremisa = False
 
-    if ejercicio['premisas']:
-        for premisa in ejercicio['premisas']:
-            if premisa == ejercicio['premisas'][-1]:
-                isLastPremisa = True
-            else:
-                isLastPremisa = False
+        filas += '\t<tr>' + columnaPasos(contador) + relleno(nivel) + armarContenido(
+            reemplazo(premisa), reemplazo('S'), profundidad, isLastPremisa) + '</tr>\n'
 
-            filas += '\t<tr>' + columnaPasos(contador) + relleno(nivel) + armarContenido(reemplazo(premisa), reemplazo('S'), profundidad, isLastPremisa) + '</tr>\n'
-
-            contador += 1
-
+        contador += 1
 
     for paso in ejercicio['pasos']:
 
         if type(paso) is dict:
-            subfilas, contador = generarFilas(paso['prueba'], nivel + 1, contador)
+            subfilas, contador = generarFilas(
+                paso['prueba'], profundidad - 1, nivel + 1, contador)
             filas += subfilas
 
         else:
-            filas += '\t<tr>' + columnaPasos(contador) + relleno(nivel) + armarContenido(reemplazo(paso[0]), reemplazo(paso[1]), profundidad) + '</tr>\n'
+            print("\t%s" % paso)
+
+            filas += '\t<tr>' + columnaPasos(contador) + relleno(nivel) + armarContenido(
+                reemplazo(paso[0]), reemplazo(paso[1]), profundidad) + '</tr>\n'
 
             contador += 1
 
     return filas, contador
 
 # Genera la tabla en HTML
+
+
 def generarTabla(ejercicio):
     tabla = "<strong>Objetivo: </strong>%s<br>" % ejercicio['objetivo']
     tabla += "<table>"
-    filas = generarFilas(ejercicio)[0]
+    # contar profundidad
+    profundidad = contar_profundidad(ejercicio) + 1
+
+    filas = generarFilas(ejercicio, profundidad)[0]
     tabla += filas
     tabla += '</table>'
     return tabla
 
 
-## Esto genera el XML correspondiente al ejercicio.
+# Esto genera el XML correspondiente al ejercicio.
 # Juntamos la tabla generada en HTML con código XML de Moodle para su importación.
 
 def generar_ejercicio(tabla, contador_ejercicios):
@@ -265,6 +292,7 @@ def generar_ejercicio(tabla, contador_ejercicios):
 
 # Generamos las casillas (dragboxes) para cada proposición atómica, operador y regla de inferencia.
 
+
 def generar_dragboxes(proposiciones, lenguaje_local):
     dragboxes = ""
     for item in completo:
@@ -287,6 +315,7 @@ def generar_dragboxes(proposiciones, lenguaje_local):
         dragboxes += item_html
 
     return dragboxes
+
 
 # Constante de comienzo del código html
 html = '<?xml version="1.0" encoding="UTF-8"?>\n<quiz>\n'
@@ -335,12 +364,14 @@ for conjunto_por_dificultad in ejercicios:
         # Armamos una lista del lenguaje completo, incluyendo los números
         # de los pasos, cuantificadores, las reglas de inferencia y las
         # proposiciones atómicas.
-        reglasEjercicio = random.sample([regla for regla in reglas if regla not in reglasLocales], k = 3) + reglasLocales
+        reglasEjercicio = random.sample(
+            [regla for regla in reglas if regla not in reglasLocales], k=3) + reglasLocales
         random.shuffle(reglasEjercicio)
+        reglasEjercicio = list(set(reglasEjercicio))
 
         # Tenemos que depurar la lista de reglas. Hay que poner las reglas que
         # están en el ejercicio y un par más, pero no todas. De lo contrario,
-        #sobrecargamos algunos exploradores.
+        # sobrecargamos algunos exploradores.
         completo = lista_pasos + reglasEjercicio + lenguaje_local + proposiciones
 
         # Generamos una tabla en html para el ejercicio

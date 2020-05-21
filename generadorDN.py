@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import json
+import yaml
 import re
 import random
 
@@ -324,8 +324,8 @@ html = '<?xml version="1.0" encoding="UTF-8"?>\n<quiz>\n'
 contador_ejercicios = 1
 
 # Cargamos los ejercicios en formato JSON
-with open('ejercicios.json') as f:
-    ejercicios = json.loads(f.read())
+with open('ejercicios.yml') as f:
+    ejercicios = yaml.load(f.read(), Loader=yaml.FullLoader)
 
 # Asignamos un nombre y categoría para los ejercicios
 categoria = input("Escriba un tema: ")
